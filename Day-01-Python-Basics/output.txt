@@ -1,0 +1,4 @@
+Python Version: 3.11.14
+requests & rich: Successfully imported
+Factorial of 7 = 5,040
+Day 01 Completed – Modern Python + venv ready! 
