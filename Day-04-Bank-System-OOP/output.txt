@@ -1,0 +1,24 @@
+Banking System
+
+Testing Savings Account
+Deposited Rs. 4,000 New balance: Rs. 104,000
+Withdrew Rs. 2,000 Remaining: Rs. 102,000
+Interest added: Rs. 7140.0
+New balance: Rs. 109140.0
+Ali Sadiq's balance: Rs. 109,140
+
+Testing Checking Account
+Deposited Rs. 4,000 New balance: Rs. 104,000
+Withdrew Rs. 2,000 (overdraft allowed)
+Remaining: Rs. 102,000
+Shsumail's balance: Rs. 102,000
+
+Testing Composition (Account with History)
+Deposited Rs. 4,000 New balance: Rs. 104,000
+Withdrew Rs. 2,000 Remaining: Rs. 102,000
+
+Transaction History
+Account created - Initial balance: Rs. 100,000
+Deposited Rs. 4,000
+Deposited Rs. 4,000
+Withdrew Rs. 2,000
