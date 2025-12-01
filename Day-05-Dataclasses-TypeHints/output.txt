@@ -1,0 +1,4 @@
+ Ali Sadiq Transaction History
+1000 deposit 2025-12-01 17:32:13.249111 salary
+500 withdraw 2025-12-01 17:32:13.249118 shopping
+Balance Rs:500
