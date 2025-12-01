@@ -1,19 +1,20 @@
-# Day 05 – Dataclasses & Type Hints
+ # Day 05 – Dataclasses & Type Hints
 
-Aaj maine Day 4 wala Bank System ko modern banaya!
+Today I made my Day 04 bank code better and cleaner!
 
-### Kya seekha?
-- `@dataclass` → khud __init__ aur print bana deta hai
-- Type hints → `amount: float`, `owner: str` likha
-- `mypy` → code run se pehle galti pakad leta hai
+### What I did today:
+- Used @dataclass → no need to write __init__ again
+- Added type hints → now Python knows what kind of data should come
+- Used mypy → it checks my code before running
 
-### Files
-- `typed_bank.py` → main code (dataclass + type hints)
-- `main.py` → test karne ke liye
-- `requirements.txt` → mypy install karne ke liye
+### Files:
+- typed_bank.py → main code (super clean)
+- main.py → to test everything
+- requirements.txt → has "mypy"
 
-### Kaise chalaye?
-```bash
-pip install mypy
-python main.py           # for output run this command
-mypy typed_bank.py      # for type check run this command
+### How to run:
+1. Open terminal
+2. Type:  
+   ```bash
+   pip install mypy
+   python main.py
