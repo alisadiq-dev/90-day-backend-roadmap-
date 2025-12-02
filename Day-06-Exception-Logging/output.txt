@@ -1,0 +1,10 @@
+
+ERROR:bankapp:WITHDRAW FAILED | Ali Sadiq | Insufficient balance
+ERROR:bankapp:DEPOSIT FAILED | Ali Sadiq | Amount cannot be negative or zero
+
+
+Balance Rs:1500.0
+
+Ali Sadiq Transaction History
+1000.0 deposit 2025-12-02 10:53:26.765358 Salary
+500.0 withdraw 2025-12-02 10:53:26.765365 Shopping
