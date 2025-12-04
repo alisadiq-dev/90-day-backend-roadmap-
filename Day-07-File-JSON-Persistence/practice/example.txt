@@ -1,0 +1,3 @@
+TXT test file
+Purpose: Provide example of this file type
+Document file type: TXT

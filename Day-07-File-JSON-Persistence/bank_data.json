@@ -1,0 +1,18 @@
+{
+  "owner": "Ali",
+  "balance": 1300,
+  "transactions": [
+    {
+      "amount": 500,
+      "type": "deposit",
+      "timestamp": "2025-12-04T11:28:44.232714",
+      "note": "salary"
+    },
+    {
+      "amount": 200,
+      "type": "withdraw",
+      "timestamp": "2025-12-04T11:28:44.232863",
+      "note": "shopping"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+Transaction History for Ali:
+- Deposit: 500 (salary) on 2025-12-04T11:28:44.232714
+- Withdraw: 200 (shopping) on 2025-12-04T11:28:44.232863
+Account saved to file
+
+ ==========
+
+
+Transaction History for Ali:
+- Deposit: 500 (salary) on 2025-12-04T11:28:44.232714
+- Withdraw: 200 (shopping) on 2025-12-04T11:28:44.232863
+Account loaded from file
+
+ ==========
+
+
