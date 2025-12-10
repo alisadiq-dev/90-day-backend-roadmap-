@@ -58,7 +58,7 @@ class BankAccount:
                 raise InsufficientBalanceError("Insufficient balance")
             self.balance -= amount
             self.transactions.append(Transaction(amount, "withdraw", note=note))
-            logger.info(f"{self.owner} withdrew {amount}")
+            logger.info(f"{self.owner} withdrew {amount}")n
         except InsufficientBalanceError as e:
             logger.error(e)
  
