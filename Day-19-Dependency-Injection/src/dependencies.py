@@ -1,5 +1,4 @@
- # src/dependencies.py
-# Yeh file reusable dependencies rakhegi
+ 
 
 from fastapi import Query, HTTPException
 from src.crud import users_db
