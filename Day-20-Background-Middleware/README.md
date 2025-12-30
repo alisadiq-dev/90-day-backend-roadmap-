@@ -17,4 +17,4 @@ Today I learned **Dependency Injection** – FastAPI ka sabse powerful feature!
 
 ### How to Run
 ```bash
-uvicorn src.main:app --reload
+uvicorn src.main:app --reloadn
