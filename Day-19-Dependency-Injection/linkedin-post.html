@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkedIn Post - Day 19 Dependency Injection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .linkedin-card {
+            background: #ffffff;
+            border-radius: 12px;
+            max-width: 520px;
+            width: 100%;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        /* Header Section */
+        .post-header {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .profile-pic {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .user-info h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #191919;
+        }
+
+        .user-info p {
+            font-size: 12px;
+            color: #666;
+            margin-top: 2px;
+        }
+
+        .user-info .time {
+            font-size: 11px;
+            color: #999;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 2px;
+        }
+
+        /* Post Content */
+        .post-content {
+            padding: 20px;
+        }
+
+        .day-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .main-heading {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .emoji-accent {
+            font-size: 24px;
+        }
+
+        .post-text {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8f4f8 100%);
+            border-left: 4px solid #0077b5;
+            padding: 14px 16px;
+            border-radius: 0 10px 10px 0;
+            margin: 16px 0;
+        }
+
+        .highlight-box p {
+            font-size: 14px;
+            color: #1a1a2e;
+            font-style: italic;
+            font-weight: 500;
+        }
+
+        .key-points {
+            margin: 18px 0;
+        }
+
+        .key-points h4 {
+            font-size: 14px;
+            color: #0077b5;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .point {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            background: #fafafa;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .point:hover {
+            background: #f0f7ff;
+            transform: translateX(5px);
+        }
+
+        .point-icon {
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .point-text {
+            font-size: 13px;
+            color: #444;
+            line-height: 1.5;
+        }
+
+        .point-text strong {
+            color: #1a1a2e;
+        }
+
+        /* Code Preview */
+        .code-preview {
+            background: #1e1e2e;
+            border-radius: 10px;
+            padding: 16px;
+            margin: 16px 0;
+            overflow: hidden;
+        }
+
+        .code-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .dot.red { background: #ff5f56; }
+        .dot.yellow { background: #ffbd2e; }
+        .dot.green { background: #27ca40; }
+
+        .code-content {
+            font-family: 'Fira Code', 'Monaco', monospace;
+            font-size: 11px;
+            color: #cdd6f4;
+            line-height: 1.6;
+        }
+
+        .code-keyword { color: #cba6f7; }
+        .code-function { color: #89b4fa; }
+        .code-string { color: #a6e3a1; }
+        .code-comment { color: #6c7086; font-style: italic; }
+        .code-decorator { color: #f9e2af; }
+        .code-param { color: #fab387; }
+
+        /* Bottom Quote */
+        .quote-section {
+            background: linear-gradient(135deg, #fff9e6 0%, #fff5f5 100%);
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .quote-section p {
+            font-size: 15px;
+            color: #1a1a2e;
+            font-weight: 600;
+        }
+
+        .quote-section span {
+            color: #e74c3c;
+        }
+
+        /* Hashtags */
+        .hashtags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .hashtag {
+            color: #0077b5;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .hashtag:hover {
+            color: #004d77;
+        }
+
+        /* Engagement Bar */
+        .engagement-bar {
+            padding: 12px 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .reactions {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .reaction-icons {
+            display: flex;
+        }
+
+        .reaction-icons span {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-left: -4px;
+        }
+
+        .reaction-icons span:first-child { margin-left: 0; }
+
+        .reaction-count {
+            font-size: 12px;
+            color: #666;
+            margin-left: 6px;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 20px 16px;
+            border-top: 1px solid #eee;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+            color: #666;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .action-btn:hover {
+            background: #f0f0f0;
+            color: #0077b5;
+        }
+
+        .action-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Footer Message */
+        .footer-message {
+            background: linear-gradient(135deg, #0077b5, #00a0dc);
+            color: white;
+            text-align: center;
+            padding: 16px 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .footer-message span {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="linkedin-card">
+        <!-- Header -->
+        <div class="post-header">
+            <div class="profile-pic">AS</div>
+            <div class="user-info">
+                <h3>Ali Sadiq</h3>
+                <p>Backend Developer | Learning in Public 🚀</p>
+                <span class="time">Just now • 🌍</span>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="post-content">
+            <span class="day-badge">🔥 DAY 19 / 100</span>
+            
+            <h2 class="main-heading">
+                Dependency Injection samajh gaya aur ab maza aa gaya! <span class="emoji-accent">💉</span>
+            </h2>
+
+            <p class="post-text">
+                Pehle mujhe lagta tha Dependency Injection sirf ek fancy term hai... 
+                lekin jab FastAPI mein implement kiya toh realize hua ye kitna powerful hai!
+            </p>
+
+            <div class="highlight-box">
+                <p>"Don't build it yourself, ask for it." — yahi DI ka asal matlab hai 💡</p>
+            </div>
+
+            <p class="post-text">
+                Socho tumhare paas 10 routes hain aur har jagah same pagination logic repeat ho raha hai. 
+                Copy-paste ka mazaa toh aata hai... jab tak bug fix karna na pade! 😅
+            </p>
+
+            <div class="key-points">
+                <h4>✨ Aaj kya seekha:</h4>
+                
+                <div class="point">
+                    <span class="point-icon">📦</span>
+                    <span class="point-text"><strong>Reusable Dependencies</strong> — Ek jagah likho, har jagah use karo. Pagination ab ek line mein!</span>
+                </div>
+                
+                <div class="point">
+                    <span class="point-icon">🛡️</span>
+                    <span class="point-text"><strong>Auto 404 Handling</strong> — User nahi mila? Dependency khud exception throw kar degi</span>
+                </div>
+                
+                <div class="point">
+                    <span class="point-icon">🧹</span>
+                    <span class="point-text"><strong>Clean Code</strong> — Routes ab sirf business logic handle karte hain, validation alag!</span>
+                </div>
+                
+                <div class="point">
+                    <span class="point-icon">🔄</span>
+                    <span class="point-text"><strong>Single Source of Truth</strong> — Bug fix ek jagah, reflect har jagah</span>
+                </div>
+            </div>
+
+            <!-- Code Preview -->
+            <div class="code-preview">
+                <div class="code-header">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                </div>
+                <div class="code-content">
+                    <span class="code-comment"># Pehle: Messy code 😰</span><br>
+                    <span class="code-decorator">@app.get</span>(<span class="code-string">"/users"</span>)<br>
+                    <span class="code-keyword">def</span> <span class="code-function">read_users</span>(<span class="code-param">skip</span>, <span class="code-param">limit</span>):<br>
+                    &nbsp;&nbsp;<span class="code-comment"># validation repeat...</span><br><br>
+                    
+                    <span class="code-comment"># Ab: Clean with DI 🎯</span><br>
+                    <span class="code-decorator">@app.get</span>(<span class="code-string">"/users"</span>)<br>
+                    <span class="code-keyword">def</span> <span class="code-function">read_users</span>(<span class="code-param">pagination</span> = <span class="code-function">Depends</span>(<span class="code-param">get_pagination</span>)):<br>
+                    &nbsp;&nbsp;<span class="code-keyword">return</span> <span class="code-function">get_all_users</span>(pagination)
+                </div>
+            </div>
+
+            <div class="quote-section">
+                <p>Real growth tab hota hai jab <span>complex cheezein simple</span> lagne lagein! 🎯</p>
+            </div>
+
+            <p class="post-text">
+                100 days ka journey chal raha hai. Har din kuch naya! 
+                Agar tum bhi learn in public kar rahe ho, let's connect 🤝
+            </p>
+
+            <div class="hashtags">
+                <span class="hashtag">#100DaysOfCode</span>
+                <span class="hashtag">#FastAPI</span>
+                <span class="hashtag">#Python</span>
+                <span class="hashtag">#BackendDevelopment</span>
+                <span class="hashtag">#DependencyInjection</span>
+                <span class="hashtag">#LearnInPublic</span>
+                <span class="hashtag">#WebDevelopment</span>
+                <span class="hashtag">#CodingJourney</span>
+            </div>
+        </div>
+
+        <!-- Engagement -->
+        <div class="engagement-bar">
+            <div class="reactions">
+                <div class="reaction-icons">
+                    <span>👍</span>
+                    <span>🔥</span>
+                    <span>💡</span>
+                </div>
+                <span class="reaction-count">Ahmed, Sara and 47 others</span>
+            </div>
+            <span class="reaction-count">12 comments</span>
+        </div>
+
+        <!-- Actions -->
+        <div class="action-buttons">
+            <button class="action-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19.46 11l-3.91-3.91a7 7 0 1 0-1.69 1.69l3.91 3.91a1.2 1.2 0 0 0 1.69-1.69zM12 14a5 5 0 1 1 5-5 5 5 0 0 1-5 5z"/>
+                </svg>
+                Like
+            </button>
+            <button class="action-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7 9h10v1H7zm0 4h7v-1H7zm16-2a8.9 8.9 0 0 1-2.6 6.3 9 9 0 0 1-12.8 0A8.9 8.9 0 0 1 5 11V4h14v7z"/>
+                </svg>
+                Comment
+            </button>
+            <button class="action-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M23 12l-4.6 7H16l4-6H8.8a7 7 0 0 1-7-7V4h2v2a5 5 0 0 0 5 5h11.2l-4-6h2.4z"/>
+                </svg>
+                Repost
+            </button>
+            <button class="action-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M21 3L0 10l7.7 4.2L20 6l-8.3 9.3L16 21l5-18z"/>
+                </svg>
+                Send
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-message">
+            <span>🚀 Backend Roadmap — Day 19 Complete!</span>
+        </div>
+    </div>
+</body>
+</html>
